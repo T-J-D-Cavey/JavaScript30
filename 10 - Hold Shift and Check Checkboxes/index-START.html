@@ -97,24 +97,14 @@
   </div>
 
 <script>
-  const container = document.querySelector('.inbox');
   const items = document.querySelectorAll('.item');
   const inputs = document.querySelectorAll('.item input');
   const itemsArray = Array.from(items);
-  let shiftKeyIsDown = false;
-  document.addEventListener('keydown', setShiftKeyFlag);
-  document.addEventListener('keyup', (e) => {
-    if(e.key === 'Shift') shiftKeyIsDown = false;
-  });
-  function setShiftKeyFlag(e) {
-    if(e.key !== 'Shift') return;
-    shiftKeyIsDown = true;
-  }
   inputs.forEach(input => {
     input.addEventListener('click', handleShiftKeyDown);
   })
   function handleShiftKeyDown(e) {
-    if(!shiftKeyIsDown) return;
+    if(!e.shiftKey) return;
     firstCheckedInput = itemsArray.findIndex(item => item.children[0].checked === true);
     lastCheckedInput = itemsArray.findLastIndex(item => item.children[0].checked === true);
     for(let i=firstCheckedInput; i<=lastCheckedInput; i++) {
