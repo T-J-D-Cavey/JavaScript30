@@ -101,7 +101,6 @@
   const items = document.querySelectorAll('.item');
   const inputs = document.querySelectorAll('.item input');
   const itemsArray = Array.from(items);
-  let counter = 0;
   let shiftKeyIsDown = false;
   document.addEventListener('keydown', setShiftKeyFlag);
   document.addEventListener('keyup', (e) => {
@@ -111,10 +110,6 @@
     if(e.key !== 'Shift') return;
     shiftKeyIsDown = true;
   }
-  items.forEach(item => {
-    item.setAttribute('data-key', counter);
-    counter++;
-  })
   inputs.forEach(input => {
     input.addEventListener('click', handleShiftKeyDown);
   })
@@ -126,9 +121,6 @@
       itemsArray[i].children[0].checked = true;
     }
   }
-  // console.dir(items[5]);
-  // inputs[0].checked = true;
-  // container.children[0].children[0].checked = true;
 </script>
 </body>
 </html>
