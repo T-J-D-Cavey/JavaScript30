@@ -121,7 +121,10 @@
   function handleShiftKeyDown(e) {
     if(!shiftKeyIsDown) return;
     firstCheckedInput = itemsArray.findIndex(item => item.children[0].checked === true);
-    console.log(firstCheckedInput);
+    lastCheckedInput = itemsArray.findLastIndex(item => item.children[0].checked === true);
+    for(let i=firstCheckedInput; i<=lastCheckedInput; i++) {
+      itemsArray[i].children[0].checked = true;
+    }
   }
   // console.dir(items[5]);
   // inputs[0].checked = true;
