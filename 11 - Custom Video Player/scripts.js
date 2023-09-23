@@ -7,6 +7,7 @@ const toggle = player.querySelector('.toggle');
 const skipButtons = player.querySelectorAll('[data-skip]');
 const ranges = player.querySelectorAll('.player__slider');
 let sliderSelected = false;
+let progressSelected = false;
 
 function togglePlay() {
     const action = video.paused ? 'play' : 'pause';
@@ -23,13 +24,8 @@ function skip() {
     video.currentTime += amount;
 }
 
-function handleSlider() {
-    if(!sliderSelected) return;
-    video[this.name] = this.value;
-}
-
-function toggleSlider(e) {
-    sliderSelected = e.type === 'mousedown' ? true : false;
+function handleSlider(e) {
+    video[e.target.name] = e.target.value;
 }
 
 function handleProgress(e) {
@@ -38,20 +34,23 @@ function handleProgress(e) {
 }
 
 function scrub(e) {
-    const percent = e.offsetX / this.offsetWidth;
+    const percent = e.offsetX / progress.offsetWidth;
     const duration = video.duration * percent;
     video.currentTime = duration;
-
 }
 
 video.addEventListener('click', togglePlay);
 toggle.addEventListener('click', togglePlay);
-video.addEventListener('playing', updateButton);
+video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
 video.addEventListener('timeupdate', handleProgress);
 skipButtons.forEach(button => button.addEventListener('click', skip));
-ranges.forEach(slider => slider.addEventListener('mousemove', handleSlider));
-ranges.forEach(slider => slider.addEventListener('mousedown', toggleSlider));
-ranges.forEach(slider => slider.addEventListener('mouseup', toggleSlider));
+ranges.forEach(slider => slider.addEventListener('mousemove', (e) => sliderSelected && handleSlider(e)));
+ranges.forEach(slider => slider.addEventListener('mousedown', () => sliderSelected = true));
+ranges.forEach(slider => slider.addEventListener('mouseup', () => sliderSelected = false));
 progress.addEventListener('click', scrub);
+progress.addEventListener('mousemove', (e) => progressSelected && scrub(e));
+progress.addEventListener('mousedown', () => progressSelected = true);
+progress.addEventListener('mouseup', () => progressSelected = false);
+
 
