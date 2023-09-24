@@ -7,6 +7,20 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      const code = 'cavey';
+
+      const keys = [];
+
+      document.addEventListener('keyup', handleKeyUp);
+
+      function handleKeyUp(e) {
+        keys.push(e.key);
+        keys.splice(-code.length-1, keys.length - code.length);
+        if(keys.join('') === 'cavey') {
+          alert('Found secret code!')
+        }
+      }
+    </script>
   </body>
 </html>
