@@ -47,9 +47,24 @@
   <ul id="bands"></ul>
 
 <script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  const regex = new RegExp(/^(The |A |An )/i);
+  const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  bands.sort((a, b) => {
+    a = a.replace(regex, '').trim();
+    b = b.replace(regex, '').trim();
+    let index = 0;
+    while(a.charCodeAt(index) === b.charCodeAt(index)) {
+      index++;
+    }
+    return a.charCodeAt(index) - b.charCodeAt(index);
+  });
 
+  const list = document.querySelector('#bands');
 
+  list.innerHTML = bands.map(band => {
+    return `<li>${band}</li>
+    `
+  }).join('');
 </script>
 
 </body>
