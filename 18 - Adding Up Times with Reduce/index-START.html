@@ -183,53 +183,24 @@
     </li>
   </ul>
 <script>
-  const times = [];
-  const listItems = document.querySelectorAll('.videos li');
-  listItems.forEach(li => {
-    times.push(li.dataset.time);
-  })
- const timeObjects = times.map(time => {
-    return helper(time);
-  });
+  const listItems = Array.from(document.querySelectorAll('.videos li'));
+  const totalTime = listItems
+    .map(li => {
+      const [minutes, seconds] = li.dataset.time.split(':');
+      return (parseInt(minutes) * 60) + parseInt(seconds);
+    })
+    .reduce((total, currentTime) => {
+      return total + currentTime;
+    }, 0);
 
-  let totalTime = {
-    minutes: 0,
-    seconds: 0
-  };
+    let seconds = totalTime;
+    const hours = Math.floor(seconds / 3600);
+    seconds = seconds % 3600;
+    const minutes = Math.floor(seconds / 60);
+    seconds = seconds % 60;
 
-  for(let time of timeObjects) {
-    totalTime.minutes += time.minutes;
-    totalTime.seconds += time.seconds;
-  }
+    console.log(`Total time: ${hours}:${minutes}:${seconds}`);
 
-  let carry = Math.floor(totalTime.seconds / 60);
-  totalTime.minutes += carry;
-  let seconds = Math.round(((totalTime.seconds / 60) - carry) * 60);
-  totalTime.seconds = seconds;
-
-  let hours = Math.floor(totalTime.minutes / 60);
-  let minutes = totalTime.minutes % 60;
-
-
-  function helper(string) {
-    let minutes = '';
-    let seconds = '';
-    let index = 0;
-    while(string[index] !== ':') {
-      minutes = minutes + string[index];
-      index++;
-    };
-    index++
-    while(index < string.length) {
-      seconds = seconds + string[index];
-      index++;
-    }
-    minutes = parseInt(minutes);
-    seconds = parseInt(seconds);
-    return {minutes, seconds};  
-  };
-
-  console.log(`Total time: ${hours}:${minutes}:${totalTime.seconds}`)
 </script>
 </body>
 </html>
