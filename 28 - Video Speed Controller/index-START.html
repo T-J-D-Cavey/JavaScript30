@@ -9,13 +9,35 @@
 <body>
 
   <div class="wrapper">
-    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <video class="flex" width="500" height="250" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
     <div class="speed">
       <div class="speed-bar">1×</div>
     </div>
   </div>
 
 <script>
+  const video = document.querySelector('video.flex');
+  const trigger = document.querySelector('.speed');
+  const speedbar = document.querySelector('.speed-bar');
+  let isDown = false;
+
+  function handleMove(e) {
+    if(!isDown) return;
+    const y = e.y - this.offsetTop;
+    const decimal = y / this.offsetHeight;
+    const percentage = Math.round(decimal * 100);
+    const min = 0.5;
+    const max = 3;
+    const playbackSpeed = (max - min) * decimal + min;
+    speedbar.textContent = `${playbackSpeed.toFixed(2)}x`;
+    speedbar.style.height = `${percentage}%`;
+    video.playbackRate = playbackSpeed;
+  }
+
+  trigger.addEventListener('mousedown', () => isDown = true);
+  trigger.addEventListener('mouseup', () => isDown = false);
+  trigger.addEventListener('mouseleave', () => isDown = false);
+  trigger.addEventListener('mousemove', handleMove);
 </script>
 </body>
 </html>
